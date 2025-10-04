@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:16.3
+    platform: linux/amd64
+    environment:
+      POSTGRES_DB: finapp
+      POSTGRES_USER: finapp
+      POSTGRES_PASSWORD: finapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+volumes:
+  dbdata: {}

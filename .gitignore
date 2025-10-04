@@ -1,0 +1,32 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/wrapper/maven-wrapper.properties
+.mvn/wrapper/MavenWrapperDownloader.java
+*.jar
+*.war
+*.ear
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse / VS Code
+.project
+.classpath
+.settings/
+.vscode/
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and temp files
+logs/
+*.log
+
+# Environment and secrets
+.env
+
+# Other
+*.swp
