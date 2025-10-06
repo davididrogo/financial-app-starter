@@ -9,6 +9,8 @@
   <name>financial-app</name>
   <description>Hexagonal Spring Boot financial app starter</description>
 
+  <packaging>jar</packaging>
+
   <properties>
     <java.version>21</java.version>
     <spring-boot.version>3.3.3</spring-boot.version>
@@ -87,6 +89,15 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>repackage</id>
+            <phase>package</phase>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
         <configuration>
           <image>
             <name>ghcr.io/${project.groupId}/${project.artifactId}:${project.version}</name>
