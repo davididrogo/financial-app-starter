@@ -10,6 +10,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -26,8 +27,8 @@ public class JwtService {
     public String issue(String subject, Map<String, Object> claims){
         Instant now = Instant.now();
         return Jwts.builder()
+                .setClaims(new HashMap<>(claims))
                 .setSubject(subject)
-                .setClaims(claims)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(now.plusSeconds(ttlSeconds)))
                 .signWith(key)
