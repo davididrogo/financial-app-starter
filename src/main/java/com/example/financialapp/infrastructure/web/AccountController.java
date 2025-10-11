@@ -23,7 +23,7 @@ public class AccountController {
     private final AccountUseCase useCase;
     public AccountController(AccountUseCase useCase) { this.useCase = useCase; }
 
-    @PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE')")
     @PostMapping
     public ResponseEntity<Void> open(@Validated @RequestBody CreateAccountRequest body,
                                        Authentication auth) {
@@ -31,26 +31,26 @@ public class AccountController {
         return ResponseEntity.created(URI.create("/accounts/" + id)).build();
     }
 
-    @PreAuthorize("hasRole('EMPLOYEE') or #id.toString() == authentication.principal")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE') or #id.toString() == authentication.principal")
     @GetMapping("/{id}/balance")
     public ResponseEntity<BigDecimal> balance(@PathVariable UUID id){
         return ResponseEntity.ok(useCase.balanceOf(id));
     }
 
-    @PreAuthorize("hasRole('EMPLOYEE') or #id.toString() == authentication.principal")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE') or #id.toString() == authentication.principal")
     @GetMapping("/{id}/transactions")
     public ResponseEntity<List<TransactionRes>> history(@PathVariable UUID id){
         return ResponseEntity.ok(useCase.historyOf(id));
     }
 
-    @PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE') or hasAuthority('ADMIN')")
     @PostMapping("/{id}/deposit")
     public ResponseEntity<Void> deposit(@PathVariable UUID id, @Validated @RequestBody MoneyRequest body) {
         useCase.deposit(id, body.amount());
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasRole('EMPLOYEE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE') or hasAuthority('ADMIN')")
     @PostMapping("/{id}/withdraw")
     public ResponseEntity<Void> withdraw(@PathVariable UUID id, @Validated @RequestBody MoneyRequest body) {
         useCase.withdraw(id, body.amount());

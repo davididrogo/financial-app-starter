@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CustomerController {
     private final CustomerService service;
 
-    @PreAuthorize("hasAuthority('ROLE_USER')")
+    @PreAuthorize("hasAuthority('ROLE_EMPLOYEE')")
     @PostMapping
     public ResponseEntity<CustomerRes> create(@RequestBody CreateCustomerReq req){
         var saved = service.create(req);

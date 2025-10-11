@@ -35,12 +35,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 var user = repo.findByUsername(username).orElse(null);
                 if(user != null){
                     var authorities = user.getRoles().stream()
+                            .map(r -> r.startsWith("ROLE_") ? r : "ROLE_" + r)//TODO:validate
                             .map(SimpleGrantedAuthority::new)
                             .collect(Collectors.toList());
                     var authentication = new UsernamePasswordAuthenticationToken(
                             user.getId().toString(),
                             null,
                             authorities);
+                    System.out.println("AUTH=" + authentication.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }catch (Exception exception){
