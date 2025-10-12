@@ -5,6 +5,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 
 import java.util.Set;
@@ -18,7 +21,8 @@ import static lombok.AccessLevel.PROTECTED;
 @NoArgsConstructor//(access = PROTECTED)
 @EqualsAndHashCode(of = "id")
 public class UserEntity {
-    @Id
+    @Id @UuidGenerator
+    @JdbcTypeCode(SqlTypes.UUID)
     private UUID id;
     @Column(nullable = false, unique = true)
     private String username;

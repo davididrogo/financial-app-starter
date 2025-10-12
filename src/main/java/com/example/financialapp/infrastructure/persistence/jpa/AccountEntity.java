@@ -2,6 +2,9 @@ package com.example.financialapp.infrastructure.persistence.jpa;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.type.SqlTypes;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -13,7 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EqualsAndHashCode(of = "id")
 public class AccountEntity {
-    @Id
+    @Id @UuidGenerator
+    @JdbcTypeCode(SqlTypes.UUID)
     private UUID id;
     @Column(nullable = false)
     private UUID ownerId;

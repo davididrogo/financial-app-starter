@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .map(u -> org.springframework.security.core.userdetails.User
                         .withUsername(u.getUsername())
                         .password(u.getPasswordHash()) // must be encoded (BCrypt)
-                        .authorities(
+                        .authorities(//building authorities for security context
                                 u.getRoles().stream()
                                         .map(r -> new SimpleGrantedAuthority(
                                                 r.toString().startsWith("ROLE_") ? r.toString() : "ROLE_" + r))
@@ -59,8 +59,10 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/auth/**","/actuator/health", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/accounts/**").authenticated()
+                    .requestMatchers("/auth/**").permitAll()
+                    //TODO:for checking forbidden accounts open request , uncomment later
+                /*.requestMatchers("/auth/**","/actuator/health", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/v1/accounts/**").authenticated()*/
                 .anyRequest().authenticated())
             //.httpBasic(Customizer.withDefaults());
                 .authenticationProvider(authProvider)

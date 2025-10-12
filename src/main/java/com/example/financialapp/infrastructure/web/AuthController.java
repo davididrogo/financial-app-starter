@@ -30,14 +30,14 @@ public class AuthController {
     public record RegisterReq(@NotBlank String username,@NotBlank String password){}
     public record TokenRes(String token){}
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterReq req){
+    public ResponseEntity<?> registerEmployee(@RequestBody RegisterReq req){
         if(usersRepo.findByUsername(req.username).isPresent())
             return ResponseEntity.status(409).build();
         var u = new UserEntity();
         u.setId(UUID.randomUUID());
         u.setUsername(req.username);
         u.setPasswordHash(encoder.encode(req.password));
-        u.setRoles(Set.of("ROLE_USER"));
+        u.setRoles(Set.of("ROLE_EMPLOYEE"));
         usersRepo.save(u);
         return ResponseEntity.noContent().build();
     }
