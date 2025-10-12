@@ -18,9 +18,6 @@ spring:
 
 server:
   port: ${PORT:8080}
-logging:
-  level:
-    org.springframework.security: DEBUG
 
 management:
   endpoints:
@@ -32,6 +29,7 @@ logging:
     root: INFO
     org.springframework.web: INFO
     org.hibernate.SQL: WARN
+    org.springframework.security: DEBUG
 # =========================
 # Development profile
 # =========================
