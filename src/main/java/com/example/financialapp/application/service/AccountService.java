@@ -6,7 +6,9 @@ import com.example.financialapp.application.port.out.LoadAccountPort;
 import com.example.financialapp.application.port.out.SaveAccountPort;
 import com.example.financialapp.domain.model.Account;
 import com.example.financialapp.domain.model.Transaction;
+import com.example.financialapp.infrastructure.outbox.OutboxPublisher;
 import com.example.financialapp.infrastructure.web.dto.TransactionRes;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -18,20 +20,18 @@ public class AccountService implements AccountUseCase {
     private final LoadAccountPort loadAccountPort;
     private final SaveAccountPort saveAccountPort;
     private final AppendTransactionPort appendTransactionPort;
-
     public AccountService(LoadAccountPort load, SaveAccountPort save, AppendTransactionPort tx) {
         this.loadAccountPort = load;
         this.saveAccountPort = save;
         this.appendTransactionPort = tx;
     }
-
     @Override
     public UUID open(UUID ownerId, String type) {
         Account account = new Account(UUID.randomUUID(), ownerId, BigDecimal.ZERO);
         saveAccountPort.save(account);
         return account.getId();
     }
-
+    @Transactional
     @Override
     public void deposit(UUID accountId, BigDecimal amount) {
         Account acc = require(loadAccountPort.load(accountId));
@@ -39,7 +39,6 @@ public class AccountService implements AccountUseCase {
         saveAccountPort.save(acc);
         appendTransactionPort.append(new Transaction(UUID.randomUUID(), accountId, Transaction.Type.DEPOSIT, amount, Instant.now()));
     }
-
     @Override
     public void withdraw(UUID accountId, BigDecimal amount) {
         Account acc = require(loadAccountPort.load(accountId));

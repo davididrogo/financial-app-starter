@@ -45,7 +45,8 @@ public class AccountController {
 
     @PreAuthorize("hasAuthority('ROLE_EMPLOYEE') or hasAuthority('ADMIN')")
     @PostMapping("/{id}/deposit")
-    public ResponseEntity<Void> deposit(@PathVariable UUID id, @Validated @RequestBody MoneyRequest body) {
+    public ResponseEntity<Void> deposit(@PathVariable("id") UUID id,
+                                        @Validated @RequestBody MoneyRequest body) {
         useCase.deposit(id, body.amount());
         return ResponseEntity.noContent().build();
     }
