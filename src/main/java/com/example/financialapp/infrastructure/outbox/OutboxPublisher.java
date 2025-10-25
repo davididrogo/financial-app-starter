@@ -1,17 +1,19 @@
 package com.example.financialapp.infrastructure.outbox;
 
+import com.example.financialapp.infrastructure.persistence.jpa.OutboxEvent;
+import com.example.financialapp.infrastructure.persistence.jpa.OutboxEventRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
-@Service
+@Component
 public class OutboxPublisher {
     private final OutboxEventRepository repo;
     private final ObjectMapper mapper;
-    public OutboxPublisher(OutboxEventRepository repo,ObjectMapper mapper){
+    public OutboxPublisher(OutboxEventRepository repo, ObjectMapper mapper){
         this.repo = repo;
         this.mapper = mapper;
     }

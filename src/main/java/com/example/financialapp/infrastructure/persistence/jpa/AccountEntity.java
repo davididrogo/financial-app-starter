@@ -14,6 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class AccountEntity {
     @Id @UuidGenerator
@@ -23,5 +24,7 @@ public class AccountEntity {
     private UUID ownerId;
     @Column(nullable = false)
     private BigDecimal balance;
+    @Column(nullable = false)
+    private boolean frozen;
 
 }

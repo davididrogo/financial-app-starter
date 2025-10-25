@@ -1,4 +1,4 @@
-package com.example.financialapp.infrastructure.outbox;
+package com.example.financialapp.infrastructure.persistence.jpa;
 
 import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
