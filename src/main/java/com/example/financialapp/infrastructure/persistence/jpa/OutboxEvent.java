@@ -1,4 +1,4 @@
-package com.example.financialapp.infrastructure.outbox;
+package com.example.financialapp.infrastructure.persistence.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

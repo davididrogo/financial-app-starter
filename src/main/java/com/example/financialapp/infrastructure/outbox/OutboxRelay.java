@@ -1,5 +1,6 @@
 package com.example.financialapp.infrastructure.outbox;
 
+import com.example.financialapp.infrastructure.persistence.jpa.OutboxEventRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

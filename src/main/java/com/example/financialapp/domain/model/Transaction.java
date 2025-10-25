@@ -2,6 +2,7 @@ package com.example.financialapp.domain.model;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Transaction {
@@ -13,11 +14,19 @@ public class Transaction {
     private final Instant occurredAt;
 
     public Transaction(UUID id, UUID accountId, Type type, BigDecimal amount, Instant occurredAt) {
-        this.id = id;
-        this.accountId = accountId;
-        this.type = type;
+        this.id = Objects.requireNonNull(id);
+        this.accountId = Objects.requireNonNull(accountId);
+        this.type = Objects.requireNonNull(type);
+        if (amount == null || amount.signum() <= 0) throw new IllegalArgumentException("amount must be > 0");
         this.amount = amount;
-        this.occurredAt = occurredAt;
+        this.occurredAt = occurredAt == null ? Instant.now() : occurredAt;
+    }
+    public static Transaction depositOf(UUID accountId, BigDecimal amount){
+        return new Transaction(UUID.randomUUID(), accountId, Type.DEPOSIT, amount, Instant.now());
+    }
+    public static Transaction withdrawalOf(UUID accountId, BigDecimal amount){
+        return new Transaction(UUID.randomUUID(), accountId, Type.WITHDRAWAL, amount,
+                Instant.now());
     }
     public UUID getId() {
         return id;
